@@ -1,12 +1,12 @@
 [project]
-name = "vvsu-timetable-parser"
+name = "vvsu-attendance-helper"
 version = "0.1.0"
-description = "Add your description here"
+description = "Little thing helping track attendance"
 readme = "README.md"
 authors = [
     { name = "nichevone", email = "stepan.mikhailov.20@gmail.com" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "beautifulsoup4>=4.15.0",
     "pandas>=3.1.1",
