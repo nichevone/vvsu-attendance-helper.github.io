@@ -101,7 +101,7 @@ function renderAttendance() {
       </div>`;
     }).join('');
     return `<tr>
-      <td><div class="student-cell"><span>${escapeHtml(name)}</span><button type="button" class="remove-student" data-remove="${studentIndex}" aria-label="Удалить ${escapeHtml(name)}">Удалить</button></div></td>
+      <td><div class="student-cell"><span>${studentIndex + 1}. ${escapeHtml(name)}</span><button type="button" class="remove-student" data-remove="${studentIndex}" aria-label="Удалить ${escapeHtml(name)}">Удалить</button></div></td>
       <td class="attendance-buttons-cell"><div class="attendance-buttons">${buttons}</div></td>
     </tr>`;
   }).join('');
@@ -134,9 +134,11 @@ function renderAttendance() {
 function makeReport() {
   if (!timetable) return 'Расписание не загружено.';
   if (!state.students.length) return 'Cписок студентов не заполнен';
-  const lines = [`${timetable.date} не было:`, ''];
+  const lines = `${timetable.date} не было:`;
   timetable.lessons.forEach((lesson, index) => {
-    const title = lesson.discipline + '(' + lesson.type + ')' || `Занятие ${index + 1}`;
+    const title = lesson.discipline && lesson.type
+    ? `${lesson.discipline} (${lesson.type})`
+    : `Занятие ${index + 1}`;
     lines.push(title);
     const key = lessonKey(lesson, index);
     const absent = state.students.filter(name => state.attendance[key]?.[name] !== true);
