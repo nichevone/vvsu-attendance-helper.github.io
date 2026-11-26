@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111318">
   <title>Учёт посещаемости</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,11 +14,7 @@
         <h1>Учёт посещаемости</h1>
         <p id="subtitle" class="muted">Группа А/СОПИ-24-1</p>
       </div>
-      <div class="top-actions">
-        <button id="refreshBtn" class="secondary" type="button">Обновить расписание</button>
-        <button id="copyBtn" class="secondary" type="button">Копировать отчёт</button>
-        <button id="exportBtn" type="button">Скачать отчёт TXT</button>
-      </div>
+      <button id="refreshBtn" class="secondary" type="button">Обновить расписание</button>
     </header>
 
     <section class="panel status-panel">
@@ -28,31 +25,44 @@
       <p id="status" role="status" class="status">Загрузка…</p>
     </section>
 
-    <section class="panel">
+    <section class="panel roster-panel">
       <div class="section-heading">
         <div>
-          <h2>Студенты</h2>
-          <p class="muted">Список и отметки сохраняются в этом браузере.</p>
+          <h2>Посещаемость</h2>
+          <p class="muted">Один студент в строке, каждая пара — отдельный столбец.</p>
         </div>
       </div>
+
       <form id="addStudentForm" class="add-form">
         <input id="studentName" type="text" placeholder="Фамилия Имя Отчество" autocomplete="off" required>
-        <button type="submit">Добавить</button>
+        <button type="submit">Добавить студента</button>
       </form>
       <div class="import-row">
         <label class="file-label">Импорт TXT/CSV <input id="importFile" type="file" accept=".txt,.csv,text/plain,text/csv"></label>
         <span class="muted small">Один студент на строку</span>
       </div>
+
       <div id="studentsEmpty" class="empty">Добавь студентов вручную или импортируй список.</div>
-      <ul id="studentsList" class="students-list"></ul>
+      <div id="attendanceTableWrap" class="table-wrap" hidden>
+        <table id="attendanceTable" class="attendance-table"></table>
+      </div>
     </section>
 
-    <section class="lessons-section">
-      <div class="section-heading"><div><h2>Занятия сегодня</h2><p class="muted">Для каждой пары отметь присутствие студентов.</p></div></div>
-      <div id="lessons"></div>
+    <section class="panel report-panel">
+      <div class="section-heading">
+        <div>
+          <h2>Отчёт об отсутствующих</h2>
+          <p class="muted">Текст формируется автоматически при изменении отметок.</p>
+        </div>
+      </div>
+      <textarea id="reportText" class="report-text" readonly spellcheck="false" placeholder="Здесь появится отчёт после загрузки расписания…"></textarea>
+      <div class="report-actions">
+        <button id="copyBtn" class="secondary" type="button">Копировать отчёт</button>
+        <button id="exportBtn" type="button">Скачать отчёт TXT</button>
+      </div>
     </section>
 
-    <footer class="muted footer">Данные посещаемости хранятся только в LocalStorage этого браузера.</footer>
+    <footer class="muted footer">Список студентов и отметки посещаемости хранятся только в LocalStorage этого браузера.</footer>
   </main>
   <script src="app.js"></script>
 </body>
