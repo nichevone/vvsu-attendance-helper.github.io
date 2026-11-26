@@ -95,7 +95,7 @@ function renderAttendance() {
     const buttons = lessons.map((lesson, lessonIndex) => {
       const key = lessonKey(lesson, lessonIndex);
       const present = state.attendance[key]?.[name] === true;
-      return `<div class="attendance-toggle" role="group" aria-label="Посещаемость: ${escapeHtml(name)}, пара ${lessonIndex + 1}" data-lesson-label="${lessonIndex + 1}">
+      return `<div class="attendance-toggle" role="group" aria-label="Посещаемость: ${escapeHtml(name)}, пара ${lessonIndex + 1}">
         <button type="button" class="present ${present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="present" aria-label="Пара ${lessonIndex + 1}: +" aria-pressed="${present}">+</button>
         <button type="button" class="absent ${!present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="absent" aria-label="Пара ${lessonIndex + 1}: N" aria-pressed="${!present}">N</button>
       </div>`;

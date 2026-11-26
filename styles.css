@@ -29,14 +29,14 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 input[type="text"] { min-width: 0; flex: 1; border: 1px solid #3a4150; border-radius: 9px; padding: 11px 12px; background: #12151c; color: #edf0f6; font: inherit; }
 input[type="text"]:focus, .report-text:focus { outline: 2px solid #477de0; outline-offset: 1px; }
 .import-row { gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-.file-label { display: inline-block; background: #282d38; color: #e4e8f0; border-color: #3a4150; font-size: 14px; }
+.file-label { display: inline-block; background: #282d38; color: #e4e8f0; border-color: #3a4150; font-size: 16px; }
 .file-label:hover { background: #343b49; }
 .file-label input { display: none; }
 .empty { padding: 20px 0 2px; color: #969dab; font-size: 14px; }
-.table-wrap { overflow-x: auto; margin-top: 20px; border: 1px solid #303644; border-radius: 10px; }
+.table-wrap { overflow-x: auto; margin-top: 20px; border: 2px solid #303644; border-radius: 10px; }
 .attendance-table { width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 0; }
-.attendance-table th, .attendance-table td { padding: 6px 5px; text-align: center; border-bottom: 1px solid #303644; border-right: 1px solid #303644; }
-.attendance-table th { background: #222834; color: #e6eaf2; font-size: 13px; font-weight: 650; vertical-align: bottom; }
+.attendance-table th, .attendance-table td { padding: 6px 10px; text-align: center; border-bottom: 1px solid #303644; border-right: 1px solid #303644; }
+.attendance-table th { background: #222834; color: #e6eaf2; font-size: 14px; font-weight: 650; vertical-align: bottom; }
 .attendance-table th:first-child { min-width: 230px; text-align: left; position: sticky; left: 0; z-index: 2; }
 .attendance-table td:first-child { text-align: left; position: sticky; left: 0; z-index: 1; background: #1a1e27; }
 .attendance-table tr:last-child td { border-bottom: 0; }
@@ -46,11 +46,11 @@ input[type="text"]:focus, .report-text:focus { outline: 2px solid #477de0; outli
 .lesson-heading span { color: #a4adbd; font-size: 12px; font-weight: 400; }
 .student-cell { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .student-cell span { overflow-wrap: anywhere; }
-.remove-student { padding: 4px 8px; border-color: #45404a; background: transparent; color: #aeb5c2; font-size: 12px; font-weight: 500; }
+.remove-student { padding: 4px 8px; border-color: #45404a; background: transparent; color: #aeb5c2; font-size: 14px; font-weight: 500; }
 .remove-student:hover { background: #422b32; color: #ffaaa5; }
-.attendance-toggle { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid #353c49; border-radius: 9px; background: #131720; white-space: nowrap; }
-.attendance-toggle button { padding: 6px 9px; border-radius: 6px; background: transparent; color: #aeb5c2; font-size: 12px; font-weight: 600; }
-.attendance-toggle button.present.active { background: #174b39; color: #8ce2b7; }
+.attendance-toggle { display: inline-flex; gap: 3px; padding: 4px; border: 1px solid #353c49; border-radius: 9px; background: #131720; white-space: nowrap; }
+.attendance-toggle button { padding: 1px 20px; border-radius: 6px; background: transparent; color: #aeb5c2; font-size: 12px; font-weight: 600; }
+.attendance-toggle button.present.acti2ve { background: #174b39; color: #8ce2b7; }
 .attendance-toggle button.absent.active { background: #542b31; color: #ffaaa5; }
 .attendance-toggle button:not(.active):hover { background: #2a303b; }
 .no-lessons { color: #aeb5c2; font-size: 13px; padding: 16px 0 0; }
@@ -115,12 +115,6 @@ input[type="text"]:focus, .report-text:focus { outline: 2px solid #477de0; outli
 .attendance-toggle button { min-width: 34px; }
 .attendance-toggle button.present.active { background: #174b39; color: #8ce2b7; }
 .attendance-toggle button.absent.active { background: #542b31; color: #ffaaa5; }
-.attendance-toggle::before {
-  content: attr(data-lesson-label);
-  align-self: center;
-  margin-right: 2px;
-  color: #969dab;
-  font-size: 11px;
 }
 @media (max-width: 650px) {
   .lesson-item { padding: 10px; }
