@@ -282,7 +282,7 @@ function makeReport() {
     lines.push(title);
 
     if (absent.length) {
-      lines.push(`${absent.join(',')} + '\n'`);
+      lines.push(`${absent.join(', ') + '\n'}`);
     } else {
       lines.push('Были все');
     }
