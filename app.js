@@ -41,7 +41,7 @@ async function loadTimetable() {
     renderLessons();
     document.getElementById('attendanceTableWrap').hidden = true;
     document.getElementById('studentsEmpty').hidden = state.students.length > 0;
-    document.getElementById('reportText').value = 'Расписание пока недоступно.';
+    document.getElementById('reportText').value = 'Расписание пока недоступно';
   } finally { refresh.disabled = false; }
 }
 
@@ -52,12 +52,12 @@ function renderLessons() {
   list.innerHTML = '';
   if (!timetable) {
     empty.hidden = false;
-    empty.textContent = 'Расписание пока недоступно.';
+    empty.textContent = 'Расписание пока недоступно';
     return;
   }
   if (!timetable.lessons.length) {
     empty.hidden = false;
-    empty.textContent = 'На сегодня занятий не найдено.';
+    empty.textContent = 'На сегодня занятий не найдено';
     return;
   }
 
@@ -132,7 +132,7 @@ function renderAttendance() {
 }
 
 function makeReport() {
-  if (!timetable) return 'Расписание не загружено.';
+  if (!timetable) return 'Расписание не загружено';
   if (!state.students.length) return 'Cписок студентов не заполнен';
   const lines = `${timetable.date} не было:`;
   timetable.lessons.forEach((lesson, index) => {
@@ -170,7 +170,7 @@ document.getElementById('addStudentForm').addEventListener('submit', event => {
 
 document.getElementById('clearStudentsBtn').addEventListener('click', () => {
   if (!state.students.length) return;
-  const approved = confirm('Удалить всех студентов и все отметки посещаемости? Это действие нельзя отменить.');
+  const approved = confirm('Удалить всех студентов и все отметки посещаемости? Это действие нельзя отменить');
   if (!approved) return;
 
   state.students = [];
@@ -210,7 +210,7 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
     const report = document.getElementById('reportText');
     report.focus();
     report.select();
-    setStatus('Автоматическое копирование недоступно. Текст отчёта выделен, скопируй его вручную.', 'error');
+    setStatus('Автоматическое копирование недоступно. Текст отчёта выделен, скопируй его вручную', 'error');
   }
 });
 
