@@ -265,7 +265,7 @@ function makeReport() {
     return 'Список студентов не заполнен';
   }
 
-  const lines = [`Отчёт о посещаемости — ${timetable.date}`];
+  const lines = [`${timetable.date} не было:`];
 
   timetable.lessons.forEach((lesson, index) => {
     const title = lesson.discipline && lesson.type
@@ -282,7 +282,7 @@ function makeReport() {
     lines.push(title);
 
     if (absent.length) {
-      lines.push(`Не было: ${absent.join(', ')}`);
+      lines.push(`${absent.join(',')} + '\n'`);
     } else {
       lines.push('Были все');
     }
