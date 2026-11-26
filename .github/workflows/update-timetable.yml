@@ -22,10 +22,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: uv sync
 
       - name: Fetch timetable
-        run: python update_timetable.py
+        run: python get-timetable.py
 
       - name: Commit updated timetable
         run: |
