@@ -133,19 +133,31 @@ function renderAttendance() {
 
 function makeReport() {
   if (!timetable) return 'Расписание не загружено';
-  if (!state.students.length) return 'Cписок студентов не заполнен';
+  if (!state.students.length) return 'Список студентов не заполнен';
+
   const lines = [`${timetable.date} не было:`];
+
   timetable.lessons.forEach((lesson, index) => {
     const title = lesson.discipline && lesson.type
     ? `${lesson.discipline} (${lesson.type})`
     : `Занятие ${index + 1}`;
+
     lines.push(title);
+
     const key = lessonKey(lesson, index);
-    const absent = state.students.filter(name => state.attendance[key]?.[name] !== true);
-    if (absent.length) absent.forEach(name => lines.push(name));
-    else lines.push('были все');
+    const absent = state.students.filter(
+      name => state.attendance[key]?.[name] !== true
+    );
+
+    if (absent.length) {
+      absent.forEach(name => lines.push(name));
+    } else {
+      lines.push('были все');
+    }
+
     lines.push('');
   });
+
   return lines.join('\n').trimEnd() + '\n';
 }
 function updateReport() { document.getElementById('reportText').value = makeReport(); }
