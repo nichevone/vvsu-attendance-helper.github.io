@@ -70,3 +70,70 @@ input[type="text"]:focus, .report-text:focus { outline: 2px solid #477de0; outli
   .report-actions { justify-content: stretch; }
   .report-actions button { flex: 1; }
 }
+
+
+/* Today's lessons are shown separately above the attendance roster. */
+.lessons-list {
+  list-style: none;
+  counter-reset: lesson;
+  display: grid;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.lesson-item {
+  counter-increment: lesson;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #303644;
+  border-radius: 10px;
+  background: #151922;
+}
+.lesson-number {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #28354c;
+  color: #a9c5ff;
+  font-weight: 700;
+  font-size: 13px;
+}
+.lesson-info { min-width: 0; display: grid; gap: 4px; }
+.lesson-info strong { color: #e6eaf2; overflow-wrap: anywhere; }
+.lesson-info span { color: #a4adbd; font-size: 13px; overflow-wrap: anywhere; }
+.attendance-table { min-width: 0; }
+.attendance-table th:first-child { min-width: 230px; }
+.attendance-table th:last-child { text-align: left; }
+.attendance-buttons-cell { text-align: left !important; }
+.attendance-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.attendance-toggle { gap: 3px; }
+.attendance-toggle button { min-width: 34px; }
+.attendance-toggle button.present.active { background: #174b39; color: #8ce2b7; }
+.attendance-toggle button.absent.active { background: #542b31; color: #ffaaa5; }
+.attendance-toggle::before {
+  content: attr(data-lesson-label);
+  align-self: center;
+  margin-right: 2px;
+  color: #969dab;
+  font-size: 11px;
+}
+@media (max-width: 650px) {
+  .lesson-item { padding: 10px; }
+  .attendance-buttons { gap: 6px; }
+}
+
+
+/* Clear the complete student roster and its attendance marks. */
+.clear-students-row { margin-top: 12px; }
+.clear-students {
+  background: #422b32;
+  color: #ffaaa5;
+  border-color: #69404a;
+}
+.clear-students:hover { background: #56343d; }
+.clear-students:disabled { opacity: .4; cursor: not-allowed; }

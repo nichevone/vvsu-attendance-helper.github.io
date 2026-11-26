@@ -30,6 +30,7 @@ async function loadTimetable() {
     const updated = timetable.updated_at ? new Date(timetable.updated_at).toLocaleString('ru-RU') : 'неизвестно';
     document.getElementById('updatedLabel').textContent = `Последнее обновление: ${updated}`;
     setStatus('Расписание загружено', 'ok');
+    renderLessons();
     renderAttendance();
     updateReport();
   } catch (error) {
@@ -37,16 +38,50 @@ async function loadTimetable() {
     document.getElementById('todayLabel').textContent = 'Не удалось загрузить расписание';
     document.getElementById('updatedLabel').textContent = '';
     setStatus(`Ошибка: ${error.message}. Проверь, опубликован ли data/timetable.json.`, 'error');
+    renderLessons();
     document.getElementById('attendanceTableWrap').hidden = true;
     document.getElementById('studentsEmpty').hidden = state.students.length > 0;
     document.getElementById('reportText').value = 'Расписание пока недоступно.';
   } finally { refresh.disabled = false; }
 }
 
+function renderLessons() {
+  const list = document.getElementById('lessonsList');
+  const empty = document.getElementById('lessonsEmpty');
+
+  list.innerHTML = '';
+  if (!timetable) {
+    empty.hidden = false;
+    empty.textContent = 'Расписание пока недоступно.';
+    return;
+  }
+  if (!timetable.lessons.length) {
+    empty.hidden = false;
+    empty.textContent = 'На сегодня занятий не найдено.';
+    return;
+  }
+
+  empty.hidden = true;
+  list.innerHTML = timetable.lessons.map((lesson, index) => {
+    const title = [lesson.discipline, lesson.type].filter(Boolean).join(' — ') || `Пара ${index + 1}`;
+    const meta = [lesson.time, lesson.room ? `ауд. ${lesson.room}` : '', lesson.teacher].filter(Boolean).join(' · ');
+    return `<li class="lesson-item">
+      <span class="lesson-number">${index + 1}</span>
+      <div class="lesson-info">
+        <strong>${escapeHtml(title)}</strong>
+        <span>${escapeHtml(meta || 'Дополнительная информация отсутствует')}</span>
+      </div>
+    </li>`;
+  }).join('');
+}
+
 function renderAttendance() {
   const empty = document.getElementById('studentsEmpty');
   const wrap = document.getElementById('attendanceTableWrap');
   const table = document.getElementById('attendanceTable');
+  const clearButton = document.getElementById('clearStudentsBtn');
+  if (clearButton) clearButton.disabled = state.students.length === 0;
+
   if (!state.students.length) {
     empty.hidden = false;
     wrap.hidden = true;
@@ -54,33 +89,27 @@ function renderAttendance() {
     return;
   }
   empty.hidden = true;
-  if (!timetable) { wrap.hidden = true; return; }
-  if (!timetable.lessons.length) {
+  if (!timetable || !timetable.lessons.length) {
     wrap.hidden = true;
-    empty.hidden = false;
-    empty.textContent = 'На сегодня занятий не найдено.';
     return;
   }
 
-  const headers = timetable.lessons.map((lesson, index) => {
-    const title = [lesson.discipline, lesson.type].filter(Boolean).join(' — ') || `Пара ${index + 1}`;
-    const meta = [lesson.time, lesson.room ? `ауд. ${lesson.room}` : '', lesson.teacher].filter(Boolean).join(' · ');
-    return `<th scope="col"><div class="lesson-heading"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(meta)}</span></div></th>`;
-  }).join('');
-
   const rows = state.students.map((name, studentIndex) => {
-    const cells = timetable.lessons.map((lesson, lessonIndex) => {
+    const buttons = timetable.lessons.map((lesson, lessonIndex) => {
       const key = lessonKey(lesson, lessonIndex);
       const present = state.attendance[key]?.[name] === true;
-      return `<td><div class="attendance-toggle" role="group" aria-label="Посещаемость: ${escapeHtml(name)}, пара ${lessonIndex + 1}">
-        <button type="button" class="present ${present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="present" aria-pressed="${present}">Был</button>
-        <button type="button" class="absent ${!present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="absent" aria-pressed="${!present}">Не был</button>
-      </div></td>`;
+      return `<div class="attendance-toggle" role="group" aria-label="Посещаемость: ${escapeHtml(name)}, пара ${lessonIndex + 1}" data-lesson-label="${lessonIndex + 1}">
+        <button type="button" class="present ${present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="present" aria-label="Пара ${lessonIndex + 1}: был" aria-pressed="${present}">Был</button>
+        <button type="button" class="absent ${!present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="absent" aria-label="Пара ${lessonIndex + 1}: не был" aria-pressed="${!present}">Не был</button>
+      </div>`;
     }).join('');
-    return `<tr><td><div class="student-cell"><span>${escapeHtml(name)}</span><button type="button" class="remove-student" data-remove="${studentIndex}" aria-label="Удалить ${escapeHtml(name)}">Удалить</button></div></td>${cells}</tr>`;
+    return `<tr>
+      <td><div class="student-cell"><span>${escapeHtml(name)}</span><button type="button" class="remove-student" data-remove="${studentIndex}" aria-label="Удалить ${escapeHtml(name)}">Удалить</button></div></td>
+      <td class="attendance-buttons-cell"><div class="attendance-buttons">${buttons}</div></td>
+    </tr>`;
   }).join('');
 
-  table.innerHTML = `<thead><tr><th scope="col">Студент</th>${headers}</tr></thead><tbody>${rows}</tbody>`;
+  table.innerHTML = `<thead><tr><th scope="col">Студент</th><th scope="col">Отметки посещаемости</th></tr></thead><tbody>${rows}</tbody>`;
   wrap.hidden = false;
 
   table.querySelectorAll('[data-value]').forEach(button => button.addEventListener('click', () => {
@@ -143,6 +172,19 @@ document.getElementById('addStudentForm').addEventListener('submit', event => {
   updateReport();
 });
 
+document.getElementById('clearStudentsBtn').addEventListener('click', () => {
+  if (!state.students.length) return;
+  const approved = confirm('Удалить всех студентов и все отметки посещаемости? Это действие нельзя отменить.');
+  if (!approved) return;
+
+  state.students = [];
+  state.attendance = {};
+  saveState();
+  renderAttendance();
+  updateReport();
+  setStatus('Список студентов и отметки посещаемости очищены', 'ok');
+});
+
 document.getElementById('importFile').addEventListener('change', async event => {
   const file = event.target.files[0];
   if (!file) return;
@@ -172,7 +214,7 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
     const report = document.getElementById('reportText');
     report.focus();
     report.select();
-    setStatus('Автоматическое копирование недоступно. Текст отчёта выделен — скопируй его вручную.', 'error');
+    setStatus('Автоматическое копирование недоступно. Текст отчёта выделен, скопируй его вручную.', 'error');
   }
 });
 
@@ -187,6 +229,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 });
 document.getElementById('refreshBtn').addEventListener('click', loadTimetable);
 
+renderLessons();
 renderAttendance();
 updateReport();
 loadTimetable();

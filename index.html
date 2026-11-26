@@ -12,7 +12,6 @@
     <header class="topbar">
       <div>
         <h1>Учёт посещаемости</h1>
-        <p id="subtitle" class="muted">Группа А/СОПИ-24-1</p>
       </div>
       <button id="refreshBtn" class="secondary" type="button">Обновить расписание</button>
     </header>
@@ -25,21 +24,33 @@
       <p id="status" role="status" class="status">Загрузка…</p>
     </section>
 
+    <section class="panel lessons-panel">
+      <div class="section-heading">
+        <div>
+          <h2>Сегодняшние пары</h2>
+          <p class="muted">Расписание занятий на сегодня</p>
+        </div>
+      </div>
+      <div id="lessonsEmpty" class="empty">Список пар загружается…</div>
+      <ol id="lessonsList" class="lessons-list"></ol>
+    </section>
+
     <section class="panel roster-panel">
       <div class="section-heading">
         <div>
           <h2>Посещаемость</h2>
-          <p class="muted">Один студент в строке, каждая пара — отдельный столбец.</p>
         </div>
       </div>
 
       <form id="addStudentForm" class="add-form">
-        <input id="studentName" type="text" placeholder="Фамилия Имя Отчество" autocomplete="off" required>
+        <input id="studentName" type="text" autocomplete="off" required>
         <button type="submit">Добавить студента</button>
       </form>
       <div class="import-row">
         <label class="file-label">Импорт TXT/CSV <input id="importFile" type="file" accept=".txt,.csv,text/plain,text/csv"></label>
-        <span class="muted small">Один студент на строку</span>
+      </div>
+      <div class="clear-students-row">
+        <button id="clearStudentsBtn" class="clear-students" type="button" disabled>Очистить список студентов</button>
       </div>
 
       <div id="studentsEmpty" class="empty">Добавь студентов вручную или импортируй список.</div>
@@ -52,7 +63,7 @@
       <div class="section-heading">
         <div>
           <h2>Отчёт об отсутствующих</h2>
-          <p class="muted">Текст формируется автоматически при изменении отметок.</p>
+          <p class="muted">Формируется автоматически при изменении отметок</p>
         </div>
       </div>
       <textarea id="reportText" class="report-text" readonly spellcheck="false" placeholder="Здесь появится отчёт после загрузки расписания…"></textarea>
@@ -62,7 +73,7 @@
       </div>
     </section>
 
-    <footer class="muted footer">Список студентов и отметки посещаемости хранятся только в LocalStorage этого браузера.</footer>
+    <footer class="muted footer">Больше информации на <a href=https://github.com/nichevone/vvsu-attendance-helper.github.io</footer>github.com/nichevone/vvsu-attendance-helper</a>
   </main>
   <script src="app.js"></script>
 </body>
