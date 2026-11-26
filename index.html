@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Учёт посещаемости</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <h1>Учёт посещаемости</h1>
+        <p id="subtitle" class="muted">Группа А/СОПИ-24-1</p>
+      </div>
+      <div class="top-actions">
+        <button id="refreshBtn" class="secondary" type="button">Обновить расписание</button>
+        <button id="copyBtn" class="secondary" type="button">Копировать отчёт</button>
+        <button id="exportBtn" type="button">Скачать отчёт TXT</button>
+      </div>
+    </header>
+
+    <section class="panel status-panel">
+      <div>
+        <strong id="todayLabel">Расписание загружается…</strong>
+        <p id="updatedLabel" class="muted"></p>
+      </div>
+      <p id="status" role="status" class="status">Загрузка…</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h2>Студенты</h2>
+          <p class="muted">Список и отметки сохраняются в этом браузере.</p>
+        </div>
+      </div>
+      <form id="addStudentForm" class="add-form">
+        <input id="studentName" type="text" placeholder="Фамилия Имя Отчество" autocomplete="off" required>
+        <button type="submit">Добавить</button>
+      </form>
+      <div class="import-row">
+        <label class="file-label">Импорт TXT/CSV <input id="importFile" type="file" accept=".txt,.csv,text/plain,text/csv"></label>
+        <span class="muted small">Один студент на строку</span>
+      </div>
+      <div id="studentsEmpty" class="empty">Добавь студентов вручную или импортируй список.</div>
+      <ul id="studentsList" class="students-list"></ul>
+    </section>
+
+    <section class="lessons-section">
+      <div class="section-heading"><div><h2>Занятия сегодня</h2><p class="muted">Для каждой пары отметь присутствие студентов.</p></div></div>
+      <div id="lessons"></div>
+    </section>
+
+    <footer class="muted footer">Данные посещаемости хранятся только в LocalStorage этого браузера.</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
