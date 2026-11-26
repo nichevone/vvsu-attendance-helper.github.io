@@ -89,18 +89,15 @@ function renderAttendance() {
     return;
   }
   empty.hidden = true;
-  if (!timetable || !timetable.lessons.length) {
-    wrap.hidden = true;
-    return;
-  }
+  const lessons = timetable?.lessons || [];
 
   const rows = state.students.map((name, studentIndex) => {
-    const buttons = timetable.lessons.map((lesson, lessonIndex) => {
+    const buttons = lessons.map((lesson, lessonIndex) => {
       const key = lessonKey(lesson, lessonIndex);
       const present = state.attendance[key]?.[name] === true;
       return `<div class="attendance-toggle" role="group" aria-label="Посещаемость: ${escapeHtml(name)}, пара ${lessonIndex + 1}" data-lesson-label="${lessonIndex + 1}">
-        <button type="button" class="present ${present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="present" aria-label="Пара ${lessonIndex + 1}: был" aria-pressed="${present}">Был</button>
-        <button type="button" class="absent ${!present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="absent" aria-label="Пара ${lessonIndex + 1}: не был" aria-pressed="${!present}">Не был</button>
+        <button type="button" class="present ${present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="present" aria-label="Пара ${lessonIndex + 1}: +" aria-pressed="${present}">+</button>
+        <button type="button" class="absent ${!present ? 'active' : ''}" data-lesson="${lessonIndex}" data-student="${studentIndex}" data-value="absent" aria-label="Пара ${lessonIndex + 1}: N" aria-pressed="${!present}">N</button>
       </div>`;
     }).join('');
     return `<tr>
@@ -116,7 +113,7 @@ function renderAttendance() {
     const lessonIndex = Number(button.dataset.lesson);
     const studentIndex = Number(button.dataset.student);
     const name = state.students[studentIndex];
-    const key = lessonKey(timetable.lessons[lessonIndex], lessonIndex);
+    const key = lessonKey(lessons[lessonIndex], lessonIndex);
     state.attendance[key] ||= {};
     state.attendance[key][name] = button.dataset.value === 'present';
     saveState();

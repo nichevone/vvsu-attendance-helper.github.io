@@ -35,7 +35,7 @@ input[type="text"]:focus, .report-text:focus { outline: 2px solid #477de0; outli
 .empty { padding: 20px 0 2px; color: #969dab; font-size: 14px; }
 .table-wrap { overflow-x: auto; margin-top: 20px; border: 1px solid #303644; border-radius: 10px; }
 .attendance-table { width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 0; }
-.attendance-table th, .attendance-table td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #303644; border-right: 1px solid #303644; }
+.attendance-table th, .attendance-table td { padding: 6px 5px; text-align: center; border-bottom: 1px solid #303644; border-right: 1px solid #303644; }
 .attendance-table th { background: #222834; color: #e6eaf2; font-size: 13px; font-weight: 650; vertical-align: bottom; }
 .attendance-table th:first-child { min-width: 230px; text-align: left; position: sticky; left: 0; z-index: 2; }
 .attendance-table td:first-child { text-align: left; position: sticky; left: 0; z-index: 1; background: #1a1e27; }
